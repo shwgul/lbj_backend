@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': './media/'}),
+    url(r'^survey/updateplanet', 'survey.views.updateplanet'),
     url(r'^survey/makeplanet', 'survey.views.makeplanet'),
     url(r'^survey/makemember', 'survey.views.makesun'),
     url(r'^survey/$', 'survey.views.index'),

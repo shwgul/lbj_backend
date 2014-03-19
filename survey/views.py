@@ -12,6 +12,12 @@ def makesun(request):
     first_name = request.POST['first_name']
     last_name = request.POST['last_name']
     post_email = request.POST['email']
+    try:
+        m = Member.objects.get(email=post_email)
+        return render_to_response('graph.html', {"sun":m.memberId,"sunname":m.firstName},context_instance=RequestContext(request))
+    except Member.DoesNotExist:
+        listing = None
+
     post_address = request.POST['address']
     post_income = request.POST['income']
     post_profession = request.POST['profession']
@@ -27,11 +33,19 @@ def makesun(request):
     m = Member(memberId= uuid.uuid4(), firstName = first_name, lastName=last_name, email=post_email, address=post_address, income=post_income,profession=post_profession,homeValue=post_homeValue, 
         squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString)
     m.save();
-    return render_to_response('graph.html', {"sun":m.memberId},context_instance=RequestContext(request))
+    return render_to_response('graph.html', {"sun":m.memberId,"sunname":m.firstName},context_instance=RequestContext(request))
 def makeplanet(request):
     first_name = request.POST['first_name']
     last_name = request.POST['last_name']
     post_email = request.POST['email']
+    
+    try:
+        m = Member.objects.get(email=post_email)
+        print "Found"
+        return HttpResponse("Redundant")
+    except Member.DoesNotExist:
+        listing = None
+
     post_address = request.POST['address']
     post_income = ""
     post_profession = request.POST['profession']
@@ -55,4 +69,15 @@ def makeplanet(request):
     m.save();
     relation = Relation(sunId = post_sunId, friendId = m.memberId, trustLevel = post_trustLevel, frequency = post_frequency, conversationTopic = conversationString, actualRingLevel = post_actualRingLevel)
     relation.save()
+    return HttpResponse("Success")
+def updateplanet(request):
+    for key in request.POST:
+        value = request.POST[key]
+    print value
+    post_email = request.POST['email']
+    post_level = request.POST['level']
+    m = Member.objects.get(email=post_email)
+    r = Relation.objects.get(friendId = m.memberId) 
+    r.actualRingLevel = post_level 
+    r.save();
     return HttpResponse("Success")
