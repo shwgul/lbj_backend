@@ -1,8 +1,123 @@
-<form action="/survey/makemember" method="post">
-{% csrf_token %} 
-First Name : <input type="text" name="first"><br/>
-Second Name : <input type="text" name="second"><br/>
-Email : <input type="text" name="email"><br/>
-<input type="submit">
-</form> 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+        <meta charset="utf-8">
+        <title>Bootply.com - Bootstrap preview</title>
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!--[if lt IE 9]>
+          <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <link rel="shortcut icon" href="/bootstrap/img/favicon.ico">
+        <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+        <!-- CSS code from Bootply.com editor -->
+        <style type="text/css">
+        .head-mod { 
+            margin-top : 10px;
+        }
+        </style>
+    </head>
+    
+    <!-- HTML code from Bootply.com editor -->
+    
+    <body  >
+        <div class="container">
+        <div class="row centered-form head-mod">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+        	<div class="panel panel-default">
+        		<div class="panel-heading">
+			    		<h3 class="panel-title">Sun<small> (You) </small></h3>
+			 			</div>
+			 			<div class="panel-body">
+			    		<form role="form" action="/survey/makemember" method="post">
+			    		{% csrf_token %} 
+                        <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                            <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address">
+                            </div>
+
+                          <div class="form-group">
+                                <label class="msg" for="Address">Address:</label>
+			    				<textarea name="address" id="address" class="form-control" placeholder="Address">                            	
+                                </textarea>
+			    			</div>
+                          <div class="form-group">
+                            <label class="msg" for="income">Income:</label>
+                          	<select name="income" class="form-control" placeholder="income">
+  							<option value="30k-50k">30k - 50k</option>
+  							<option value="50k-100k">50k - 1000k</option>
+                              <option value=">100k">&gt;100k</option>
+							</select>
+                          </div>
+                          <div class="form-group">
+                            <label class="msg" for="profession">Profession:</label>
+                            <select name="profession" class="form-control" placeholder="profession">
+                            <option value="engineering">Engineering</option>
+                            <option value="scientist">Scientist</option>
+                              <option value="professor">Professor</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                                <input type="text" name="homevalue" id="homevalue" class="form-control input-sm" placeholder="Home Value">
+                          </div>
+                          <div class="form-group">
+                                <input type="text" name="squarefootage" id="squarefootage" class="form-control input-sm" placeholder="Square Footage">
+                          </div>
+                          <div class="form-group">
+		                        <label class="msg" for="income" class="form-control" placeholder="adoption">Adoption:</label>
+                  		      <br> 
+                  			    <input type = "checkbox" name="energy[]" value="solar" id="energy"> Solar <br>
+                  			    <input type = "checkbox" name="energy[]" id="energy" value="ev"> EV <br>	
+                  			    <input type = "checkbox" name="energy[]" id="energy" value="hybrid"> Hybrid <br>	
+                  			    <input type = "checkbox" name="energy[]" id="energy" value="vehicle"> Vehicle<br>	
+                  			    <input type = "checkbox" name="energy[]" id="energy" value="smart"> Smart Thermostat <br>	
+                  			    <input type = "checkbox" name="energy[]" id="energy" value="major"> Major Energy Efficiency Improvements<br>	
+                          </div>
+			    			<input type="submit" value="Register" class="btn btn-info btn-block">
+			    		
+			    		</form>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+        
+        <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+
+
+        <script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+        
+        <!-- JavaScript jQuery code from Bootply.com editor -->
+        
+        <script type='text/javascript'>
+        
+        $(document).ready(function() {
+        
+            
+        
+        });
+        
+        </script>
+        
+    </body>
+</html>

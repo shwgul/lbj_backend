@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -13,7 +14,9 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    url(r'^survey/makemember', 'survey.views.makemember'),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': './media/'}),
+    url(r'^survey/makemember', 'survey.views.makesun'),
     url(r'^survey/$', 'survey.views.index'),
     url(r'^admin/', include(admin.site.urls)),
 )
