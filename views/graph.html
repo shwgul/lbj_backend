@@ -76,11 +76,12 @@ a:active {color:#000000;}
               <h3 class="panel-title">Add Planet<small> (Others) </small><div id="expand-link" href="">+</div></h3>
             </div>
             <div class="panel-body" id="form-body">
-              <form role="form" action="graph.html">
+              <form role="form" method="post" action="/survey/makeplanet">
+                        {% csrf_token %} 
                         <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
-                            <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+                                    <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -89,7 +90,9 @@ a:active {color:#000000;}
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                              <input type="text" name="email" id="email" class="form-control input-sm" placeholder="Email">
+                            </div>
                             <div class="form-group">
                                   <input type="text" name="sunid" value="{{sun}}" hidden/>
                                   <input type="text" name="profession" id="profession" class="form-control input-sm" placeholder="Profession">
@@ -101,24 +104,23 @@ a:active {color:#000000;}
                             </div>
                           <div class="form-group">
                             <label class="msg" for="trust">Trust Level<br/><small>(Trust in this person's advice) : </small></label>
-                            <span id="range">3</span><input id="trust" type="range" default="3" min="0" max="5" onchange="showValue(this.value)"/>
+                            <span id="range">3</span><input id="trust" type="range" name="trust" default="3" min="0" max="3" onchange="showValue(this.value)"/>
                           </div>
                           <div class="form-group">
-                           <label class="msg" for="cognitive">On an average, how often do you communicate?</label>
-                            <input type="text" name="cognitive" id="cognitive" class="form-control input-sm"  placeholder="Frequencey(daily/monthly/yearly)"/>
+                           <label class="msg" for="frequency">On an average, how often do you communicate?</label>
+                            <input type="text" name="frequency" id="frequency" class="form-control input-sm"  placeholder="Frequencey(daily/monthly/yearly)"/>
                           </div>
                           <div class="form-group">
-                            <label class="msg" for="conversation" class="form-control">What do you talk about:</label>
+                            <label class="msg" for="conversation[]" class="form-control">What do you talk about:</label>
                             <br>
-                            <input type="checkbox">Solar <br>
-                            <input type="checkbox"> Wind
-                            <br/><input type="checkbox" value="gas" name="coversation"> Natural Gas
-                            <br/><input type="checkbox" name="conversation" value="ev"> EV
-                            <br/><input type="checkbox" name="conversation" value="fuel"> Fuel Economy
-                            <br/><input type="checkbox" name="conversation" value="oil"> Oil
-                            <br/><input type="checkbox" name="conversation" value="elec"> Electricity
-                            <br/><input type="checkbox" name="conversation" value="energy"> Energy Efficiency
-                           
+                            <input type="checkbox" name="coversation[]" value="solar">Solar <br>
+                            <input type="checkbox" name="coversation[]" value="wind"> Wind
+                            <br/><input type="checkbox" name="coversation[]" value="gas"> Natural Gas
+                            <br/><input type="checkbox" name="conversation[]" value="ev"> EV
+                            <br/><input type="checkbox" name="conversation[]" value="fuel"> Fuel Economy
+                            <br/><input type="checkbox" name="conversation[]" value="oil"> Oil
+                            <br/><input type="checkbox" name="conversation[]" value="elec"> Electricity
+                            <br/><input type="checkbox" name="conversation[]" value="energy"> Energy Efficiency             
                           </div>
                           <button type="button" id="go" class="btn btn-info btn-block">Add</button>
               
@@ -128,6 +130,17 @@ a:active {color:#000000;}
  </div>
  </div>
  <div class="messagepop pop">
+  <form role="form">
+      <div class="form-group">
+        <input type="text" name="name" id="pop_name" class="form-control input-sm" placeholder="name">
+        <input type="text" name="email" id="pop_email" class="form-control input-sm" hidden/>
+        <select name="newlevel" id="pop_level">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+  </form>
  </div>
  <div style="position:absolute;right:50px;top:10px;height:90%;width:80%;">
   <div id="container" style="position:absolute;right:200px;left:50px;"></div>
@@ -193,9 +206,10 @@ a:active {color:#000000;}
     i++;
   });
   $(document).ready(function () {
-    //var s = new sigma('container');
-    sigma.settings.mouseEnabled = false; 
-    sigma.settings.doubleClickEnabled = false; 
+    console.log(JSON.stringify(sigma.settings));
+    sigma.settings.zoomingRatio = 1.0;
+    sigma.settings.doubleClickZoomingRatio = 1.0;
+
     var s = new sigma({
     renderers: [{
       container: document.getElementById('container'),
@@ -213,8 +227,6 @@ a:active {color:#000000;}
       context.lineWidth = 1;
       context.save();
       context.beginPath();
-      //context.bezierCurveTo(centerX,centerY, centerX + radius,centerY,centerX+radius, centerY+radius);
-      //context.bezierCurveTo(centerX+radius, centerY+radius, centerX, centerY + radius, centerX , centerY);
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.stroke();
       context.closePath();
@@ -230,8 +242,6 @@ a:active {color:#000000;}
       context.lineWidth = 1;
       context.save();
       context.beginPath();
-      //context.bezierCurveTo(centerX,centerY, centerX + radius,centerY,centerX+radius, centerY+radius);
-      //context.bezierCurveTo(centerX+radius, centerY+radius, centerX, centerY + radius, centerX , centerY);
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.stroke();
       context.closePath();
@@ -248,8 +258,6 @@ a:active {color:#000000;}
       context.lineWidth = 1;
       context.save();
       context.beginPath();
-      //context.bezierCurveTo(centerX,centerY, centerX + radius,centerY,centerX+radius, centerY+radius);
-      //context.bezierCurveTo(centerX+radius, centerY+radius, centerX, centerY + radius, centerX , centerY);
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.stroke();
       context.closePath();
@@ -266,8 +274,6 @@ a:active {color:#000000;}
       context.lineWidth = 1;
       context.save();
       context.beginPath();
-      //context.bezierCurveTo(centerX,centerY, centerX + radius,centerY,centerX+radius, centerY+radius);
-      //context.bezierCurveTo(centerX+radius, centerY+radius, centerX, centerY + radius, centerX , centerY);
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.stroke();
       context.closePath();
@@ -284,17 +290,15 @@ a:active {color:#000000;}
       context.lineWidth = 1;
       context.save();
       context.beginPath();
-      //context.bezierCurveTo(centerX,centerY, centerX + radius,centerY,centerX+radius, centerY+radius);
-      //context.bezierCurveTo(centerX+radius, centerY+radius, centerX, centerY + radius, centerX , centerY);
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.stroke();
       context.closePath();
       context.restore();
     };
   var nameMap = {};
+  var emailMap = {};
   var levelMap = {};
     s.graph.addNode({
-      // Main attributes:
       id: 'me',
       label: 'Shweta',
       // Display attributes:
@@ -324,6 +328,7 @@ a:active {color:#000000;}
      }
      var level = $("#trust").val();
      nameMap[name] = name;
+     emailMap[name] = email;
      levelMap[name] = level;
      levels.push(level);
      var c = '#f00';
@@ -354,7 +359,9 @@ a:active {color:#000000;}
   var toggleBit = 1;
   s.bind('clickNode', function(e) {
             $(".pop").slideFadeToggle(function() { 
-              $(".pop").html("<p>Name : "+nameMap[e.data.node.id]+"<br/>Level : "+levelMap[e.data.node.id]+"</p>");
+              $('#pop_name').val(nameMap[e.data.node.id]);
+              $('#pop_email').val(emailMap[e.data.node.id]);
+
             }); 
             toggleBit = 0;      
   });
@@ -383,7 +390,6 @@ a:active {color:#000000;}
           $('#map_canvas').fadeOut("slow"); 
           return; 
         }
-        
         $('#extend-map').html("Map <<");
         $('#map_canvas').fadeIn("slow");
         $(function() { 
@@ -426,10 +432,11 @@ a:active {color:#000000;}
            $('#map_canvas').gmap('addMarker', { 'position': results[0].geometry.location});
         });
 
-    });
-            
+    }); 
+    $('#go').click(function(event) { 
+        var data = $('form').serialize();
+        $.post('/survey/makeplanet', data);
+    });    
     </script>
-    
-
 </body>
 </html>

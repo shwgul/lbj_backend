@@ -12,3 +12,11 @@ class Member(models.Model):
     homeValue = models.BigIntegerField()
     squareFootage = models.BigIntegerField()
     adoption = models.CharField(max_length=200)
+
+class Relation(models.Model):
+    sunId = models.CharField(max_length=200,primary_key=True)
+    friendId = models.CharField(max_length=200)
+    trustLevel = models.BigIntegerField()
+    frequency = models.BigIntegerField()
+    conversationTopic = models.CharField(max_length=200)
+    actualRingLevel = models.BigIntegerField()
