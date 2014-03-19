@@ -38,14 +38,22 @@ def makeplanet(request):
     first_name = request.POST['first_name']
     last_name = request.POST['last_name']
     post_email = request.POST['email']
-    
+    post_sunId = request.POST['sunid']
+    addMember = True
+    foundRelation = False
+    foundMember = None
     try:
-        m = Member.objects.get(email=post_email)
-        print "Found"
-        return HttpResponse("Redundant")
+        foundMember = Member.objects.get(email=post_email)
+        addMember = False
+        try:
+            relation = Relation.objects.get(friendId=foundMember.memberId,sunId=post_sunId)
+            foundRelation = True
+        except Relation.DoesNotExist:
+            relation = None
     except Member.DoesNotExist:
         listing = None
-
+    print addMember
+    print foundRelation
     post_address = request.POST['address']
     post_income = ""
     post_profession = request.POST['profession']
@@ -57,18 +65,20 @@ def makeplanet(request):
     conversationList = request.POST.getlist('conversation[]')
     post_memberType = "F"
     conversationString = ",".join(conversationList)
-    post_sunId = request.POST['sunid']
     post_trustLevel = request.POST['trust']
     post_actualRingLevel = 0
     for key in request.POST:
         value = request.POST[key]
         print value
     energyString=""
-    m = Member(memberId= uuid.uuid4(), firstName = first_name, lastName=last_name, email=post_email, address=post_address, income=post_income,profession=post_profession,homeValue=post_homeValue, 
-     squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString)
-    m.save();
-    relation = Relation(sunId = post_sunId, friendId = m.memberId, trustLevel = post_trustLevel, frequency = post_frequency, conversationTopic = conversationString, actualRingLevel = post_actualRingLevel)
-    relation.save()
+    if addMember == True:
+        m = Member(memberId= uuid.uuid4(), firstName = first_name, lastName=last_name, email=post_email, address=post_address, income=post_income,profession=post_profession,homeValue=post_homeValue, 
+            squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString)
+        m.save();
+    m = foundMember
+    if foundRelation == False:
+        relation = Relation(sunId = post_sunId, friendId = m.memberId, trustLevel = post_trustLevel, frequency = post_frequency, conversationTopic = conversationString, actualRingLevel = post_actualRingLevel)
+        relation.save()
     return HttpResponse("Success")
 def updateplanet(request):
     for key in request.POST:
