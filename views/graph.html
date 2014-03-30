@@ -128,7 +128,7 @@ a:active {color:#000000;}
                             <option value="Other">Other</option>
                             </select>
                           </div>
-                          
+
                             <div class="form-group" id="address-group">
                                 <label class="msg" for="Address">Address:</label>
                                 <div id="extend-map"><h6>Map >> </h6></div>
@@ -498,9 +498,9 @@ a:active {color:#000000;}
         geocoder.geocode({
           "address": inputAddress
         }, function(results) {
-           if(results.length == 0) { 
-             alert("Could not find any location with your address, enter a valid neighborhood or address");
-             return;
+       //    if(results.length == 0) { 
+        //     alert("Could not find any location with your address, enter a valid neighborhood or address");
+         //    return;
            }
            $('#map_canvas').gmap('get','map').setOptions({'center':results[0].geometry.location});
            $('#map_canvas').gmap('addMarker', { 'position': results[0].geometry.location});
