@@ -14,7 +14,7 @@ class Member(models.Model):
     adoption = models.CharField(max_length=200)
 
 class Relation(models.Model):
-    sunId = models.CharField(max_length=200,primary_key=True)
+    sunId = models.CharField(max_length=200)
     friendId = models.CharField(max_length=200)
     trustLevel = models.BigIntegerField()
     frequency = models.BigIntegerField()
