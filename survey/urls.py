@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     url(r'^updateplanet', 'survey.views.updateplanet'),
     url(r'^makeplanet', 'survey.views.makeplanet'),
     url(r'^makemember', 'survey.views.makesun'),
+    url(r'^start', 'survey.views.start'),
     url(r'^$', 'survey.views.index')
 )

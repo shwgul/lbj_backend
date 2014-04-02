@@ -497,7 +497,7 @@ a:active {color:#000000;}
           "address": inputAddress
         }, function(results) {
            if(results.length == 0) { 
-             alert("Could not find any location with your address, enter a valid neighborhood or address");
+             $('#map_canvas').gmap('get','map').setOptions({'center':'30.29128,-97.73858'});
              return;
            }
            $('#map_canvas').gmap('get','map').setOptions({'center':results[0].geometry.location});
@@ -505,14 +505,20 @@ a:active {color:#000000;}
         });
 
     }); 
-    $('#go').click(function(event) { 
-        var data = $('#main_form').serialize();
-        $.post('/survey/makeplanet', data).done(function() {
-           // alert( "second success" );
-        }).fail(function(msg) {
-          console.log(JSON.stringify(msg));
-        });
-    });    
+      $('#go').click(function(event) { 
+          var data = $('#main_form').serialize();
+          if ($('#email').val().length == 0) { 
+                    alert("Please enter your email");
+                    return;
+          }
+          $.post('/survey/makeplanet', data).done(function() {
+             // alert( "second success" );
+             $('#main_form')[0].reset();
+          }).fail(function(msg) {
+            console.log(JSON.stringify(msg));
+          });
+
+      });    
     </script>
 </body>
 </html>

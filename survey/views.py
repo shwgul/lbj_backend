@@ -5,8 +5,12 @@ from django.template import Context, loader, RequestContext
 from survey.models import Member
 from survey.models import Relation
 import uuid
+import re
 def index(request):
   return render_to_response('index.html', {},
+     context_instance=RequestContext(request))
+def start(request):
+  return render_to_response('sun.html', {},
      context_instance=RequestContext(request))
 def makesun(request):
     first_name = request.POST['first_name']
@@ -17,21 +21,29 @@ def makesun(request):
         return render_to_response('graph.html', {"sun":m.memberId,"sunname":m.firstName},context_instance=RequestContext(request))
     except Member.DoesNotExist:
         listing = None
-
     post_address = request.POST['address']
-    post_income = request.POST['income']
+    formatted_num =  re.compile(r'[^\d.]+')
+    post_income = formatted_num.sub('',request.POST['income'])
     post_profession = request.POST['profession']
     post_homeValue = 0 
     post_squareFootage = 0
+    post_latitude = 0.0
+    post_longitude = 0.0
+    if request.POST.get('latitude',0):
+        post_latitude = formatted_num.sub('',request.POST['latitude'])
+    if request.POST.get('longitude',0):
+        post_longitude= formatted_num.sub('',request.POST['longitude'])    
+    print post_latitude 
+    print post_longitude
     if request.POST.get('homevalue',0):
-        post_homeValue = request.POST['homevalue']
+        post_homeValue = formatted_num.sub('',request.POST['homevalue'])
     if request.POST.get('squareFootage',0):
-        post_squareFootage = request.POST['squarefootage']
+        post_squareFootage = formatted_num.sub('',request.POST['squarefootage'])
     energyList = request.POST.getlist('energy[]')
     post_memberType = "S"
     energyString = ",".join(energyList)
     m = Member(memberId= uuid.uuid4(), firstName = first_name, lastName=last_name, email=post_email, address=post_address, income=post_income,profession=post_profession,homeValue=post_homeValue, 
-        squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString)
+        squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString, latitude = post_latitude, longitude = post_longitude)
     m.save();
     return render_to_response('graph.html', {"sun":m.memberId,"sunname":m.firstName},context_instance=RequestContext(request))
 def makeplanet(request):
@@ -52,13 +64,11 @@ def makeplanet(request):
             relation = None
     except Member.DoesNotExist:
         listing = None
-    print addMember
-    print foundRelation
     post_address = request.POST['address']
     post_income = ""
     post_profession = request.POST['profession']
-    post_frequency = 0 
-    if request.POST.get('frequency',0):
+    post_frequency = "" 
+    if request.POST.get('frequency',""):
         post_frequency = request.POST.get('frequency')
     post_homeValue = 0 
     post_squareFootage = 0
