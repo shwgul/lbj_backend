@@ -136,7 +136,6 @@
                 geocoder.geocode({
                     "address": inputAddress
                 }, function(results) {
-                    console.log(results[0].geometry.location);
                     $("#lat").val(results[0].geometry.location.k);
                     $("#lon").val(results[0].geometry.location.A);
                 });

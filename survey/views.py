@@ -29,15 +29,13 @@ def makesun(request):
     post_squareFootage = 0
     post_latitude = 0.0
     post_longitude = 0.0
-    if request.POST.get('latitude',0):
-        post_latitude = formatted_num.sub('',request.POST['latitude'])
-    if request.POST.get('longitude',0):
-        post_longitude= formatted_num.sub('',request.POST['longitude'])    
-    print post_latitude 
-    print post_longitude
+    if request.POST.get('lat',0.0):
+        post_latitude = request.POST['lat']
+    if request.POST.get('lon',0.0):
+        post_longitude= request.POST['lon']
     if request.POST.get('homevalue',0):
         post_homeValue = formatted_num.sub('',request.POST['homevalue'])
-    if request.POST.get('squareFootage',0):
+    if request.POST.get('squarefootage',0):
         post_squareFootage = formatted_num.sub('',request.POST['squarefootage'])
     energyList = request.POST.getlist('energy[]')
     post_memberType = "S"
