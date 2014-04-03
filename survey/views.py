@@ -83,7 +83,7 @@ def makeplanet(request):
     energyString=""
     if addMember == True:
         m = Member(memberId= uuid.uuid4(), firstName = first_name, lastName=last_name, email=post_email, address=post_address, income=post_income,profession=post_profession,homeValue=post_homeValue, 
-            squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString)
+            squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString, latitude = 0.0, longitude = 0.0)
         m.save();
         foundMember = m
     if foundRelation == False:
