@@ -81,12 +81,15 @@ def makeplanet(request):
     energyString=""
     if addMember == True:
         m = Member(memberId= uuid.uuid4(), firstName = first_name, lastName=last_name, email=post_email, address=post_address, income=post_income,profession=post_profession,homeValue=post_homeValue, 
-            squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString)
+            squareFootage=post_squareFootage, memberType=post_memberType,adoption=energyString, latitude = 0.0, longitude = 0.0)
         m.save();
         foundMember = m
     if foundRelation == False:
+        print "Trying to add  a relation"
+        print foundMember.firstName
         relation = Relation(sunId = post_sunId, friendId = foundMember.memberId, trustLevel = post_trustLevel, frequency = post_frequency, conversationTopic = conversationString, actualRingLevel = post_actualRingLevel)
         relation.save()
+        print "Added a relation"
     return HttpResponse("Success")
 def updateplanet(request):
     for key in request.POST:
