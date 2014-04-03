@@ -87,8 +87,11 @@ def makeplanet(request):
         m.save();
         foundMember = m
     if foundRelation == False:
+        print "Trying to add  a relation"
+        print foundMember.firstName
         relation = Relation(sunId = post_sunId, friendId = foundMember.memberId, trustLevel = post_trustLevel, frequency = post_frequency, conversationTopic = conversationString, actualRingLevel = post_actualRingLevel)
         relation.save()
+        print "Added a relation"
     return HttpResponse("Success")
 def updateplanet(request):
     for key in request.POST:
